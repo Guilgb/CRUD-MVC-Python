@@ -3,24 +3,15 @@ from filial import Filial
 
 
 class Turma():
-    def __init__(self, nomeTurma: str, horaInicio: str, horaFim: str,
+    def __init__(self, horaInicio: str, horaFim: str,
                  diaInicio: str, diaFim: str,
                  curso: Curso, filial: Filial):
-        self.__nomeTurma = nomeTurma
         self.__horaInicio = horaInicio
         self.__horaFim = horaFim
         self.__diaInicio = diaInicio
         self.__diaFim = diaFim
-        self.__curso = (curso.curso, curso.areas)
-        self.__filial = (filial.nomeFilial, filial.localidade)
-
-    @property
-    def nomeTurma(self):
-        return self.__nomeTurma
-
-    @nomeTurma.setter
-    def nomeTurma(self, nomeTurma):
-        self.__nomeTurma = nomeTurma
+        self.__curso = curso
+        self.__filial = filial
 
     @property
     def horaInicio(self):
@@ -28,7 +19,7 @@ class Turma():
 
     @horaInicio.setter
     def horaInicio(self, horaInicio):
-        self.__nomeTurma = horaInicio
+        self.__horaInicio = horaInicio
 
     @property
     def horaFim(self):
@@ -36,7 +27,7 @@ class Turma():
 
     @horaFim.setter
     def horaFim(self, horaFim):
-        self.__nomeTurma = horaFim
+        self.__horaFim = horaFim
 
     @property
     def diaInicio(self):
@@ -44,7 +35,7 @@ class Turma():
 
     @diaInicio.setter
     def diaInicio(self, diaInicio):
-        self.__nomeTurma = diaInicio
+        self.__diaFim = diaInicio
 
     @property
     def diaFim(self):
@@ -52,7 +43,7 @@ class Turma():
 
     @diaFim.setter
     def diaFim(self, diaFim):
-        self.__nomeTurma = diaFim
+        self.__diaFim = diaFim
 
     @property
     def curso(self):

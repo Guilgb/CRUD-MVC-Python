@@ -5,13 +5,14 @@ class Curso:
     def __init__(self, curso: str, chCurso: str, area: Area) -> None:
         self.__curso = curso
         self.__chCurso = chCurso
-        self.__areas = area.area
+        self.__areas = area
 
     def insereArea(self, area: Area):
-        self.__areas.append(area.area)
+        listaAreas = []
+        listaAreas.append(area.area)
 
     def listaArea(self):
-        for area in self.__areas:
+        for area in self.listaAreas:
             print(area)
 
     @property

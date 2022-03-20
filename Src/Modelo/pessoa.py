@@ -6,21 +6,23 @@ from telefones import Telefones
 class Pessoa(abc.ABC):
     def __init__(self, nomePessoa: str, telefone: Telefones, cidade: Cidade):
         self.__nomePessoa = nomePessoa
-        self.__telefones = [telefone.numeroTelefone]
-        self.__cidades = [cidade.cidade]
+        self.__telefones = telefone
+        self.__cidades = cidade
 
     def insereCidade(self, cidade: Cidade):
-        self.__cidades.append((cidade))
+        listaCidades = []
+        listaCidades.append((cidade.cidade, cidade.estado))
 
     def listaCidade(self):
-        for cidade in self.__cidades:
+        for cidade in self.listacidades:
             print(cidade.cidade, cidade.estado)
 
     def insereTelefone(self, telefone: Telefones):
-        self.__telefones.append(telefone.numeroTelefone)
+        listaTelefones = []
+        listaTelefones.append(telefone.numeroTelefone)
 
     def listaTelefone(self):
-        for telefone in self.__telefones:
+        for telefone in self.listaTelefones:
             print(telefone)
 
     @property

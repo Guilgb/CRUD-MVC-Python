@@ -2,12 +2,9 @@ from estado import Estado
 
 
 class Cidade:
-    def __init__(self, cidade: str):
+    def __init__(self, cidade: str, estado: Estado):
         self.__cidade = cidade
-        self.__estados = Estado
-
-    def inserirEstado(self, estado: Estado):
-        self.__estados = estado.estado
+        self.__estados = estado
 
     @property
     def cidade(self):

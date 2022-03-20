@@ -17,62 +17,75 @@ class DAOAluno:
         cidade = input('\nSua Cidade:')
         escolaridade = input('\nSua Escolaridade:')
 
-        cadastrandoAluno = input('Deseja Cadastrar o Aluno ? y/n')
+        con = Conection.getConection('')
 
-        if(cadastrandoAluno == 'y'):
-            telefones = Telefones(telefone)
-            estado = Estado(uf)
-            cidades = Cidade(cidade)
-            escolaridades = Escolaridade(escolaridade)
-            novoAluno = Aluno(nomePessoa, telefones,
-                              cidades, escolaridades)
-
-        con = Conection.getConection('Iniciando Conecxão')
         cursor = con.cursor()
+        cadastrarAluno = input("Deseja cadrastrar um Aluno (y/n): ")
+        if(cadastrarAluno == 'y'):
+            telefones = Telefones(telefone)
+            estados = Estado(uf)
+            cidades = Cidade(cidade, estados)
+            escolaridades = Escolaridade(escolaridade)
+            novoAluno = Aluno(nomePessoa, telefones, cidades, escolaridades)
 
-        sqlTelefone = "insert into Telefones(numeroTelefone) value(%s)"
-        valuesTelefone = (novoAluno.telefones)
-        cursor.execute(sqlTelefone, valuesTelefone)
-
-        sqlEstado = f"insert into Estado(nomeEstado) value('{estado.estado}')"
-        cursor.execute(sqlEstado)
-
-        sqlCidade = "insert into Cidades(nomeCidade) value(%s)"
-        valuesCidade = (novoAluno.cidades)
-        cursor.execute(sqlCidade, valuesCidade)
-
-        sqlEscolaridade = "insert into Escolaridade(nomeEscolaridade) value(%s)"
-        valuesEscolaridade = (novoAluno.escolaridades)
-        cursor.execute(sqlEscolaridade, valuesEscolaridade)
-
-        con.commit()
-
-        def idCidade():
-            cursor.execute(f"select idCidade from Cidades where nomeCidade='{cidade}'"
-                           )
-            resultcidade = cursor.fetchone()
-            for cidaderes in resultcidade:
-                return cidaderes
+        # SQL TELEFONE
+        sqlTelefone = "INSERT INTO Telefones(numeroTelefone) value(%s)"
+        valueTelefone = (novoAluno.telefones.numeroTelefone)
+        cursor.execute(sqlTelefone, valueTelefone)
 
         def idTelefone():
-            cursor.execute(f"select idTelefone from Telefones where numeroTelefone='{telefone}'"
-                           )
-            resulttelefone = cursor.fetchone()
-            for telefoneres in resulttelefone:
-                return telefoneres
+            sqlIdtelefone = "SELECT idTelefone FROM Telefones where numeroTelefone=%s"
+            valueIdTelefones = (novoAluno.telefones.numeroTelefone)
+            cursor.execute(sqlIdtelefone, valueIdTelefones)
+            resultTelefone = cursor.fetchone()
+            for reTelefone in resultTelefone:
+                return reTelefone
+
+        # SQL ESTADO
+        sqlEstado = "INSERT INTO Estado(nomeEstado) value(%s)"
+        valueEstado = (novoAluno.cidades.estado.estado)
+        cursor.execute(sqlEstado, valueEstado)
+
+        def idEstado():
+            sqlIdEstado = "SELECT idEstado FROM Estado where nomeEstado=%s"
+            valueIdEstado = (novoAluno.cidades.estado.estado)
+            cursor.execute(sqlIdEstado, valueIdEstado)
+            resultEstado = cursor.fetchone()
+            for reEstado in resultEstado:
+                return reEstado
+
+        # SQL CIDADE
+        sqlCidade = "INSERT INTO Cidades(nomeCidade) value(%s)"
+        valueCidade = (novoAluno.cidades.cidade)
+        cursor.execute(sqlCidade, valueCidade)
+
+        def idCidade():
+            sqlIdCidade = "SELECT idCidade FROM Cidades where nomeCidade=%s"
+            valueIdCidade = (novoAluno.cidades.cidade)
+            cursor.execute(sqlIdCidade, valueIdCidade)
+            resultCidade = cursor.fetchone()
+            for reCidade in resultCidade:
+                return reCidade
+
+        # SQL ESCOLARIDADE
+        sqlEscolaridade = "INSERT INTO Escolaridade(nomeEscolaridade) value(%s)"
+        valueEscolaridade = (novoAluno.escolaridades.escolaridade)
+        cursor.execute(sqlEscolaridade, valueEscolaridade)
 
         def idEscolaridade():
-            cursor.execute(
-                f"SELECT idEscolaridade FROM Escolaridade where nomeEscolaridade= '{escolaridade}'"
-            )
-            resultescolaridade = cursor.fetchone()
-            for escolaridaderes in resultescolaridade:
-                return escolaridaderes
+            sqlIdEscolaridade = "SELECT idEscolaridade FROM Escolaridade where nomeEscolaridade=%s"
+            valueIdEscolaridade = (novoAluno.escolaridades.escolaridade)
+            cursor.execute(sqlIdEscolaridade, valueIdEscolaridade)
+            resultEscolaridade = cursor.fetchone()
 
-        cursor.execute(
-            f"INSERT INTO Aluno(nomeAluno, idTelefone, idCidade, idEscolaridade) values('{nomePessoa}', '{idTelefone()}', '{idCidade()}', '{idEscolaridade()}')"
-        )
+            for reEscolaridade in resultEscolaridade:
+                return reEscolaridade
 
+        # SQL Aluno
+        sqlAluno = "INSERT INTO Aluno(nomeAluno, idTelefone, idCidade, idEscolaridade) values(%s, %s, %s, %s)"
+        valuesAluno = (novoAluno.nomePessoa, idTelefone(),
+                       idCidade(), idEscolaridade())
+        cursor.execute(sqlAluno, valuesAluno)
         con.commit()
 
     def listarAlunos(self):

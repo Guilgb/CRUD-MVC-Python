@@ -3,18 +3,9 @@ from turma import Turma
 
 
 class Matricula:
-    def __init__(self, idMatricula, aluno: Aluno, turma: Turma):
-        self.__matricula = idMatricula
+    def __init__(self, aluno: Aluno, turma: Turma):
         self.__aluno = aluno
         self.__turma = turma
-
-    @property
-    def matricula(self):
-        return self.__matricula
-
-    @matricula.setter
-    def matricula(self, matricula):
-        self.__matricula = matricula
 
     @property
     def aluno(self):

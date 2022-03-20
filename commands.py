@@ -58,16 +58,17 @@ cursor = db.cursor()
 
 
 # ------------------------ Selencionar apenas um Dado ------------------------
-escolaridade = input("Digite o nome da sua Escolaridade")
+escolaridade = "Nenhuma"
 
 
 def idCidade():
-    cursor.execute(f"SELECT idEscolaridade FROM Escolaridade where nomeEscolaridade= '{escolaridade}'"
+    cursor.execute(f"SELECT idEscolaridade FROM Escolaridade where nomeEscolari)dade= '{escolaridade}'"
                    )
     result = cursor.fetchone()
-    for i in result:
-        return i
+    print(result)
 
+
+1
 
 print(idCidade())
 
