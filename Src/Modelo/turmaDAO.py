@@ -9,65 +9,86 @@ class DAOTurma:
     def __init__(self) -> None:
         pass
 
-    def inserirTurma():
+    def inserirTurma(self):
         horaInicio = input('Hora incio: ')
         horaFim = input('Hora fim: ')
         diaInicio = input('Dia inicio: ')
         diaFim = input('Dia fim: ')
-        nomecurso = input('Digite a area do curso: ')
+        nomeCurso = input('Digite a area do curso: ')
         chCurso = input('Digite o CH do curso: ')
         nomeArea = input('Digit o nome da Area: ')
-        nomefilial = input('Digite a sua filial: ')
+        nomeFilial = input('Digite a sua filial: ')
         localidade = input('Digite a localidade: ')
+        nomeInstrutor = input('Digite o nome do instrutor a ser cadastrado: ')
 
-        cadastrarTurma = input('Deseja cadastrar a Turma ? y/n: ')
+        cadastrarTurma = input('Deseja cadastrar turma ? y/n ')
+
         if(cadastrarTurma == 'y'):
             area = Area(nomeArea)
-            curso = Curso(nomecurso, chCurso, area)
-            filial = Filial(nomefilial, localidade)
-            novaTurma = Turma(horaInicio, horaFim, diaInicio,
-                              diaFim, curso, filial)
+            curso = Curso(nomeCurso, chCurso, area)
+            filial = Filial(nomeFilial, localidade)
+            novaTurma = Turma(horaInicio, horaFim,
+                              diaInicio, diaFim, curso,
+                              filial, nomeInstrutor)
 
-        con = Conection.getConection('Iniciando Conexão')
+        con = Conection.getConection("Inciando conexão")
         cursor = con.cursor()
 
-        cursor.execute(
-            f"insert into Area(nomeArea) value('{novaTurma.curso.areas}')")
+        # SQL AREA
+        sqlArea = "INSERT INTO Area(nomeArea) value(%s)"
+        valueArea = (novaTurma.curso.areas.area)
+        cursor.execute(sqlArea, valueArea)
 
         def idArea():
-            cursor.execute(
-                f"select idArea from Area where nomeArea='{novaTurma.curso.areas.area}'"
-            )
-            resultarea = cursor.fetchone()
-            for area in resultarea:
-                return area
+            sqlIdArea = "SELECT idArea FROM Area where nomeArea=%s"
+            valueIdArea = (novaTurma.curso.areas.area)
+            cursor.execute(sqlIdArea, valueIdArea)
+            resultArea = cursor.fetone()
+            for reArea in resultArea:
+                return reArea
 
-        cursor.execute(
-            f"insert into Curso(nomeCurso, chCurso, idArea) values('{novaTurma.curso.curso}', '{novaTurma.curso.chCurso}', {idArea()})")
+        # SQL CURSO
+        sqlCurso = "INSERT INTO Curso(nomeCurso, chCurso) value(%s, %s)"
+        valueCurso = (novaTurma.curso.curso, novaTurma.curso.chCurso)
+        cursor.execute(sqlCurso, valueCurso)
 
         def idCurso():
-            cursor.execute(
-                f"select idCurso from Curso where nomeCurso='{novaTurma.curso.curso}'"
-            )
-            resultcurso = cursor.fetchone()
-            for curso in resultcurso:
-                return curso
+            sqlIdCurso = "SELECT idCurso FROM Curso where nomeCurso=%s"
+            valueIdCurso = (novaTurma.curso.curso)
+            cursor.execute(sqlIdCurso, valueIdCurso)
+            resultIdCurso = cursor.fetchone()
+            for reCurso in resultIdCurso:
+                return reCurso
 
-        cursor.execute(
-            f"insert into Filial(nomeFilial, localidadeFilial) values('{novaTurma.filial.nomeFilial}', '{novaTurma.filial.localidade}')")
+        # SQL FILIAL
+        sqlFilial = "INSERT INTO Filial(nomeFilial, localidadeFilial) value(%s, %s)"
+        valueFilial = (novaTurma.filial.nomeFilial,
+                       novaTurma.filial.localidade)
+        cursor.execute(sqlFilial, valueFilial)
 
         def idFilial():
-            cursor.execute(
-                f"select idFilial from Filial where='{novaTurma.filial.nomeFilial}'")
-            resultfilial = cursor.fetchone()
+            sqlIdFilial = "SELECT idFilial FROM Filial where nomeFilial=%s"
+            valueIdFilial = (novaTurma.filial.nomeFilial)
+            cursor.execute(sqlIdFilial, valueIdFilial)
 
-            for filiais in resultfilial:
-                return filiais
+            resultFilial = cursor.fetchone()
+            for reFilial in resultFilial:
+                return reFilial
 
-        cursor.execute(
-            f"insert into Turma(horaInicio, horaFim, diaInicio, diaFim, idCurso, idFilial, idInstrutor) values('{horaInicio}', '{horaFim}', '{diaInicio}', '{diaFim}', '{idCurso()}', '{idFilial()}', '{idArea()}')")
+        def instrutor():
+            sqlIdInstrutor = "SELECT idInstrutor FROM Instrutor where nomeInstrutor=%s"
+            valueIdInstrutor = (novaTurma.idInstrutor)
+            cursor.execute(sqlIdInstrutor, valueIdInstrutor)
+
+            resultIdInstrutor = cursor.fetchone()
+            for reInstrutor in resultIdInstrutor:
+                return reInstrutor
+
+        # SQL Turma
+
+        sqlTurma = "INSERT INTO TURMA(horaInicio, horaFim, diaInicio, diaFim, idCurso, idFilial, idInstrutor) values(%s, %s, %s, %s, %s, %s, %s)"
+        valueTurma = (novaTurma.horaInicio, novaTurma.horaFim, novaTurma.diaInicio,
+                      novaTurma.diaFim, idCurso(), idFilial(), instrutor())
+        cursor.execute(sqlTurma, valueTurma)
 
         con.commit()
-
-
-inseir = DAOTurma.inserirTurma()

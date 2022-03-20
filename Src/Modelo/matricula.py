@@ -3,7 +3,7 @@ from turma import Turma
 
 
 class Matricula:
-    def __init__(self, aluno: Aluno, turma: Turma):
+    def __init__(self, aluno: str, turma: str):
         self.__aluno = aluno
         self.__turma = turma
 

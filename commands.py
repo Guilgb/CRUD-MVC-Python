@@ -58,25 +58,21 @@ cursor = db.cursor()
 
 
 # ------------------------ Selencionar apenas um Dado ------------------------
-escolaridade = "Nenhuma"
+# escolaridade = "Nenhuma"
 
 
-def idCidade():
-    cursor.execute(f"SELECT idEscolaridade FROM Escolaridade where nomeEscolari)dade= '{escolaridade}'"
-                   )
-    result = cursor.fetchone()
-    print(result)
+# def idCidade():
+#     cursor.execute(f"SELECT idEscolaridade FROM Escolaridade where nomeEscolaridade= '{escolaridade}'"
+#                    )
+#     result = cursor.fetchall()
+#     print(result)
 
-
-1
-
-print(idCidade())
 
 # ------------------------ Selencionar apenas um Dado ------------------------
-# cursor.execute("SELECT * FROM pessoa WHERE nome = 'Guilherme'")
-# result = cursor.fetchall()
-# for i in result:
-#     print(i)
+cursor.execute("SELECT * FROM Instrutor WHERE nomeInstrutor = 'Guilherme'")
+result = cursor.fetchall()
+for i in result:
+    print(i)
 
 
 # ------------------------ Ordenação Crescente ------------------------
