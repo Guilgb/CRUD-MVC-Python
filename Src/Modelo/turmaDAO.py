@@ -10,6 +10,7 @@ class DAOTurma:
         pass
 
     def inserirTurma(self):
+        nomeTurma = ('Digite o nome da turma:')
         horaInicio = input('Hora incio: ')
         horaFim = input('Hora fim: ')
         diaInicio = input('Dia inicio: ')
@@ -27,7 +28,7 @@ class DAOTurma:
             area = Area(nomeArea)
             curso = Curso(nomeCurso, chCurso, area)
             filial = Filial(nomeFilial, localidade)
-            novaTurma = Turma(horaInicio, horaFim,
+            novaTurma = Turma(nomeTurma, horaInicio, horaFim,
                               diaInicio, diaFim, curso,
                               filial, nomeInstrutor)
 
@@ -86,8 +87,8 @@ class DAOTurma:
 
         # SQL Turma
 
-        sqlTurma = "INSERT INTO TURMA(horaInicio, horaFim, diaInicio, diaFim, idCurso, idFilial, idInstrutor) values(%s, %s, %s, %s, %s, %s, %s)"
-        valueTurma = (novaTurma.horaInicio, novaTurma.horaFim, novaTurma.diaInicio,
+        sqlTurma = "INSERT INTO TURMA(nomeTurma, horaInicio, horaFim, diaInicio, diaFim, idCurso, idFilial, idInstrutor) values(%s, %s, %s, %s, %s, %s, %s, %s)"
+        valueTurma = (novaTurma.nomeTurma, novaTurma.horaInicio, novaTurma.horaFim, novaTurma.diaInicio,
                       novaTurma.diaFim, idCurso(), idFilial(), instrutor())
         cursor.execute(sqlTurma, valueTurma)
 

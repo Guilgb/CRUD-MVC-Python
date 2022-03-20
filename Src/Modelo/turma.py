@@ -1,12 +1,12 @@
 from curso import Curso
 from filial import Filial
-from instrutor import Instrutor
 
 
 class Turma():
-    def __init__(self, horaInicio: str, horaFim: str,
+    def __init__(self, nomeTurma: str, horaInicio: str, horaFim: str,
                  diaInicio: str, diaFim: str,
                  curso: Curso, filial: Filial, nomeInstrutor: str):
+        self.__nomeTurma = nomeTurma
         self.__horaInicio = horaInicio
         self.__horaFim = horaFim
         self.__diaInicio = diaInicio
@@ -14,6 +14,14 @@ class Turma():
         self.__curso = curso
         self.__filial = filial
         self.__idInstrutor = nomeInstrutor
+
+    @property
+    def nomeTurma(self):
+        return self.__nomeTurma
+
+    @nomeTurma.setter
+    def nomeTurma(self, nomeTurma):
+        self.__nomeTurma = nomeTurma
 
     @property
     def horaInicio(self):
