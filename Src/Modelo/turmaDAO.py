@@ -10,86 +10,112 @@ class DAOTurma:
         pass
 
     def inserirTurma(self):
-        nomeTurma = ('Digite o nome da turma:')
-        horaInicio = input('Hora incio: ')
-        horaFim = input('Hora fim: ')
-        diaInicio = input('Dia inicio: ')
-        diaFim = input('Dia fim: ')
-        nomeCurso = input('Digite a area do curso: ')
-        chCurso = input('Digite o CH do curso: ')
-        nomeArea = input('Digit o nome da Area: ')
-        nomeFilial = input('Digite a sua filial: ')
-        localidade = input('Digite a localidade: ')
-        nomeInstrutor = input('Digite o nome do instrutor a ser cadastrado: ')
+        try:
+            nomeTurma = input('Digite o nome da turma:')
+            horaInicio = input('Hora incio: ')
+            horaFim = input('Hora fim: ')
+            diaInicio = input('Dia inicio: ')
+            diaFim = input('Dia fim: ')
+            nomeCurso = input('Digite a area do curso: ')
+            chCurso = input('Digite o CH do curso: ')
+            nomeArea = input('Digit o nome da Area: ')
+            nomeFilial = input('Digite a sua filial: ')
+            localidade = input('Digite a localidade: ')
+            nomeInstrutor = input(
+                'Digite o nome do instrutor a ser cadastrado: ')
 
-        cadastrarTurma = input('Deseja cadastrar turma ? y/n ')
+            cadastrarTurma = input('Deseja cadastrar turma ? y/n ')
 
-        if(cadastrarTurma == 'y'):
-            area = Area(nomeArea)
-            curso = Curso(nomeCurso, chCurso, area)
-            filial = Filial(nomeFilial, localidade)
-            novaTurma = Turma(nomeTurma, horaInicio, horaFim,
-                              diaInicio, diaFim, curso,
-                              filial, nomeInstrutor)
+            if(cadastrarTurma == 'y'):
+                area = Area(nomeArea)
+                curso = Curso(nomeCurso, chCurso, area)
+                filial = Filial(nomeFilial, localidade)
+                novaTurma = Turma(nomeTurma, horaInicio, horaFim,
+                                  diaInicio, diaFim, curso,
+                                  filial, nomeInstrutor)
 
-        con = Conection.getConection("Inciando conexão")
-        cursor = con.cursor()
+            con = Conection.getConection("Inciando conexão")
+            cursor = con.cursor()
 
-        # SQL AREA
-        sqlArea = "INSERT INTO Area(nomeArea) value(%s)"
-        valueArea = (novaTurma.curso.areas.area)
-        cursor.execute(sqlArea, valueArea)
+            # SQL AREA
+            sqlArea = "INSERT INTO Area(nomeArea) value(%s)"
+            valueArea = (novaTurma.curso.areas.area)
+            cursor.execute(sqlArea, valueArea)
 
-        def idArea():
-            sqlIdArea = "SELECT idArea FROM Area where nomeArea=%s"
-            valueIdArea = (novaTurma.curso.areas.area)
-            cursor.execute(sqlIdArea, valueIdArea)
-            resultArea = cursor.fetone()
-            for reArea in resultArea:
-                return reArea
+            def idArea():
+                sqlIdArea = "SELECT idArea FROM Area where nomeArea=%s"
+                valueIdArea = (novaTurma.curso.areas.area)
+                cursor.execute(sqlIdArea, valueIdArea)
+                resultArea = cursor.fetone()
+                for reArea in resultArea:
+                    return reArea
 
-        # SQL CURSO
-        sqlCurso = "INSERT INTO Curso(nomeCurso, chCurso) value(%s, %s)"
-        valueCurso = (novaTurma.curso.curso, novaTurma.curso.chCurso)
-        cursor.execute(sqlCurso, valueCurso)
+            # SQL CURSO
+            sqlCurso = "INSERT INTO Curso(nomeCurso, chCurso) value(%s, %s)"
+            valueCurso = (novaTurma.curso.curso, novaTurma.curso.chCurso)
+            cursor.execute(sqlCurso, valueCurso)
 
-        def idCurso():
-            sqlIdCurso = "SELECT idCurso FROM Curso where nomeCurso=%s"
-            valueIdCurso = (novaTurma.curso.curso)
-            cursor.execute(sqlIdCurso, valueIdCurso)
-            resultIdCurso = cursor.fetchone()
-            for reCurso in resultIdCurso:
-                return reCurso
+            def idCurso():
+                sqlIdCurso = "SELECT idCurso FROM Curso where nomeCurso=%s"
+                valueIdCurso = (novaTurma.curso.curso)
+                cursor.execute(sqlIdCurso, valueIdCurso)
+                resultIdCurso = cursor.fetchone()
+                for reCurso in resultIdCurso:
+                    return reCurso
 
-        # SQL FILIAL
-        sqlFilial = "INSERT INTO Filial(nomeFilial, localidadeFilial) value(%s, %s)"
-        valueFilial = (novaTurma.filial.nomeFilial,
-                       novaTurma.filial.localidade)
-        cursor.execute(sqlFilial, valueFilial)
+            # SQL FILIAL
+            sqlFilial = "INSERT INTO Filial(nomeFilial, localidadeFilial) value(%s, %s)"
+            valueFilial = (novaTurma.filial.nomeFilial,
+                           novaTurma.filial.localidade)
+            cursor.execute(sqlFilial, valueFilial)
 
-        def idFilial():
-            sqlIdFilial = "SELECT idFilial FROM Filial where nomeFilial=%s"
-            valueIdFilial = (novaTurma.filial.nomeFilial)
-            cursor.execute(sqlIdFilial, valueIdFilial)
+            def idFilial():
+                sqlIdFilial = "SELECT idFilial FROM Filial where nomeFilial=%s"
+                valueIdFilial = (novaTurma.filial.nomeFilial)
+                cursor.execute(sqlIdFilial, valueIdFilial)
 
-            resultFilial = cursor.fetchone()
-            for reFilial in resultFilial:
-                return reFilial
+                resultFilial = cursor.fetchone()
+                for reFilial in resultFilial:
+                    return reFilial
 
-        def instrutor():
-            sqlIdInstrutor = "SELECT idInstrutor FROM Instrutor where nomeInstrutor=%s"
-            valueIdInstrutor = (novaTurma.idInstrutor)
-            cursor.execute(sqlIdInstrutor, valueIdInstrutor)
+            def instrutor():
+                sqlIdInstrutor = "SELECT idInstrutor FROM Instrutor where nomeInstrutor=%s"
+                valueIdInstrutor = (novaTurma.idInstrutor)
+                cursor.execute(sqlIdInstrutor, valueIdInstrutor)
 
-            resultIdInstrutor = cursor.fetchone()
-            for reInstrutor in resultIdInstrutor:
-                return reInstrutor
+                resultIdInstrutor = cursor.fetchone()
+                for reInstrutor in resultIdInstrutor:
+                    return reInstrutor
 
-        # SQL Turma
+            # SQL Turma
 
-        sqlTurma = "INSERT INTO TURMA(nomeTurma, horaInicio, horaFim, diaInicio, diaFim, idCurso, idFilial, idInstrutor) values(%s, %s, %s, %s, %s, %s, %s, %s)"
-        valueTurma = (novaTurma.nomeTurma, novaTurma.horaInicio, novaTurma.horaFim, novaTurma.diaInicio,
-                      novaTurma.diaFim, idCurso(), idFilial(), instrutor())
-        cursor.execute(sqlTurma, valueTurma)
+            sqlTurma = "INSERT INTO TURMA(nomeTurma, horaInicio, horaFim, diaInicio, diaFim, idCurso, idFilial, idInstrutor) values(%s, %s, %s, %s, %s, %s, %s, %s)"
+            valueTurma = (novaTurma.nomeTurma, novaTurma.horaInicio, novaTurma.horaFim, novaTurma.diaInicio,
+                          novaTurma.diaFim, idCurso(), idFilial(), instrutor())
+            cursor.execute(sqlTurma, valueTurma)
 
-        con.commit()
+            con.commit()
+
+        except TypeError as error:
+            print("Failed", error)
+
+        finally:
+            cursor.close()
+            con.close()
+            print('CONNECTION CLOSE')
+
+    def deleteTurma(self):
+        try:
+            nomeTurma = input(
+                "Digite o nome da turma a ser deletado: ")
+
+            con = Conection.getConection('')
+            cursor = con.cursor()
+            sql = "DELETE from Turma where nomeTurma = %s"
+            cursor.execute(sql, nomeTurma)
+        except TypeError as error:
+            print("Failed", error)
+
+        finally:
+            cursor.close()
+            con.close()
