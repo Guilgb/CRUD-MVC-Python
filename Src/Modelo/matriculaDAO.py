@@ -70,5 +70,25 @@ class DAOMatricula:
             cursor.close()
             con.close()
 
+    def updateMatricula(self):
+        try:
+            nomeMatricula = input(
+                "Digite o nome da Matricula a ser atualizado: ")
 
-insert = DAOMatricula.deletMatricula('')
+            nomeMatriculaUpdate = input("Digite o novo nome: ")
+            formacao = input("Digite a sua nova formçao: ")
+            con = Conection.getConection('')
+            cursor = con.cursor()
+
+            sqlInstrutorUpdate = "UPDATE Matricula set idAluno=%s, idTurma=%s where idMatricula=%s "
+            valuesInstrutorUpdate = (
+                nomeMatriculaUpdate, formacao, nomeMatricula)
+            cursor.execute(sqlInstrutorUpdate, valuesInstrutorUpdate)
+            con.commit()
+
+        except TypeError as error:
+            print("Failed", error)
+
+        finally:
+            cursor.close()
+            con.close()

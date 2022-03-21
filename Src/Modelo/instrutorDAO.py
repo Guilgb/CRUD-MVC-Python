@@ -99,3 +99,62 @@ class DAOInstrutor:
         finally:
             cursor.close()
             con.close()
+
+    def updateInstrutor(self):
+        try:
+            nomeInstrutor = input(
+                "Digite o nome do instrutor a ser atualizado: ")
+
+            nomeInstrutorUpdate = input("Digite o novo nome: ")
+            formacao = input("Digite a sua nova formçao: ")
+            novoNumeroTelefone = input(
+                'Digite o seu novo numero de telefone: ')
+            novaCidade = input('Digite o nome da sua nova cidade:')
+
+            # CONNECTION
+            con = Conection.getConection('')
+            cursor = con.cursor()
+
+            # SQL UPDATE NOME
+            sqlInstrutorUpdate = "UPDATE Instrutor set nomeInstrutor=%s, formacao=%s where nomeInstrutor=%s "
+            valuesInstrutorUpdate = (
+                nomeInstrutorUpdate, formacao, nomeInstrutor)
+            cursor.execute(sqlInstrutorUpdate, valuesInstrutorUpdate)
+
+            # SQL UPDATE TELEFONE
+            def idTelefone():
+                sqlIdtelefone = "SELECT idTelefone FROM Instrutor where nomeInstrutor=%s"
+                valueIdTelefones = (nomeInstrutorUpdate)
+                cursor.execute(sqlIdtelefone, valueIdTelefones)
+                resultTelefone = cursor.fetchone()
+                for reTelefone in resultTelefone:
+                    return reTelefone
+
+            sqlUpdateTelefone = "UPDATE Telefones set numeroTelefone=%s where idTelefone=%s"
+            valuesUpdateTelefone = (novoNumeroTelefone, idTelefone())
+            cursor.execute(sqlUpdateTelefone, valuesUpdateTelefone)
+
+            # SQL UPDATE CIDADE
+
+            def idCidade():
+                sqlIdCidade = "SELECT idCidade FROM Instrutor where nomeInstrutor=%s"
+                valueIdCidade = (nomeInstrutorUpdate)
+                cursor.execute(sqlIdCidade, valueIdCidade)
+                resultCidade = cursor.fetchone()
+                for reCidade in resultCidade:
+                    return reCidade
+
+            sqlUpdateCidade = "UPDATE Cidades set nomeCidade=%s where idCidade=%s"
+            valuesUpdateCidade = (novaCidade, idCidade())
+            cursor.execute(sqlUpdateCidade, valuesUpdateCidade)
+
+            con.commit()
+
+            con.commit()
+
+        except TypeError as error:
+            print("Failed", error)
+
+        finally:
+            cursor.close()
+            con.close()

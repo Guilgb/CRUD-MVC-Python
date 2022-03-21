@@ -1,3 +1,4 @@
+from turtle import update
 from estado import Estado
 from cidade import Cidade
 from escolaridade import Escolaridade
@@ -134,3 +135,74 @@ class DAOAluno:
             cursor.close()
             con.close()
             print('SQL Connection Close')
+
+    def updateAluno(self):
+        try:
+            nomeAluno = input("Aluno a ser atualizado: ")
+
+            novoNomeAluno = input("Digite o novo nome: ")
+            novoNumeroTelefone = input(
+                'Digite o seu novo numero de telefone: ')
+            novaCidade = input('Digite o nome da sua nova cidade: ')
+            novaEscolaridade = input('Digite sua nova Escolaridade: ')
+
+            # CONNECTION
+            con = Conection.getConection('')
+            cursor = con.cursor()
+
+            # SQL UPDATE NOME
+            sqlAlunoUpdate = "UPDATE Aluno set nomeAluno=%s where nomeAluno=%s "
+            valuesAlunoUpdate = (
+                novoNomeAluno, nomeAluno)
+            cursor.execute(sqlAlunoUpdate, valuesAlunoUpdate)
+
+            # SQL UPDATE TELEFONE
+            def idTelefone():
+                sqlIdtelefone = "SELECT idTelefone FROM Aluno where nomeAluno=%s"
+                valueIdTelefones = (novoNomeAluno)
+                cursor.execute(sqlIdtelefone, valueIdTelefones)
+                resultTelefone = cursor.fetchone()
+                for reTelefone in resultTelefone:
+                    return reTelefone
+
+            sqlUpdateTelefone = "UPDATE Telefones set numeroTelefone=%s where idTelefone=%s"
+            valuesUpdateTelefone = (novoNumeroTelefone, idTelefone())
+            cursor.execute(sqlUpdateTelefone, valuesUpdateTelefone)
+
+            # SQL UPDATE CIDADE
+
+            def idCidade():
+                sqlIdCidade = "SELECT idCidade FROM Aluno where nomeAluno=%s"
+                valueIdCidade = (novoNomeAluno)
+                cursor.execute(sqlIdCidade, valueIdCidade)
+                resultCidade = cursor.fetchone()
+                for reCidade in resultCidade:
+                    return reCidade
+
+            sqlUpdateCidade = "UPDATE Cidades set nomeCidade=%s where idCidade=%s"
+            valuesUpdateCidade = (novaCidade, idCidade())
+            cursor.execute(sqlUpdateCidade, valuesUpdateCidade)
+
+            # SQL ESCOLARIDADE
+            def idEscolaridade():
+                sqlIdEscolaridade = "SELECT idEscolaridade FROM Aluno where nomeAluno=%s"
+                valueIdEscolaridade = (novoNomeAluno)
+                cursor.execute(sqlIdEscolaridade, valueIdEscolaridade)
+                resultEscolaridade = cursor.fetchone()
+                for reEscolaridade in resultEscolaridade:
+                    return reEscolaridade
+
+                    sqlUpdateCidade = "UPDATE Cidades set nomeCidade=%s where idCidade=%s"
+
+            sqlUpdateEscolaridade = "UPDATE Escolaridade set nomeEscolaridade=%s where idEscolaridade=%s"
+            valuesUpdateEscolaridade = (novaEscolaridade, idEscolaridade())
+            cursor.execute(sqlUpdateEscolaridade, valuesUpdateEscolaridade)
+
+            con.commit()
+
+        except TypeError as error:
+            print("Failed", error)
+
+        finally:
+            cursor.close()
+            con.close()

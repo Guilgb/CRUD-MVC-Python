@@ -3,5 +3,6 @@
         "./modelo",
         "./src/modelo",
         "./src/Controller"
-    ]
+    ],
+    "qtForPython.uic.path": "c:\\Users\\Guilherme Gonçalves\\Desktop\\CRUD\\CRUDAluno.ui"
 }
