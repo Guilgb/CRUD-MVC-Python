@@ -192,6 +192,3 @@ class DAOTurma:
                              novahoraf, novodiai, novodiaf)
         cursor.execute(sqlUpdateTurma, valuesUpdateTurma)
         con.commit()
-
-
-update = DAOTurma.updateTurma('')
