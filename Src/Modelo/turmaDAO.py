@@ -119,3 +119,6 @@ class DAOTurma:
         finally:
             cursor.close()
             con.close()
+
+    def updateTurma(self):
+        pass

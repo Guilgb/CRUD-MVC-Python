@@ -23,22 +23,22 @@ class DAOMatricula:
 
             # SQL BUSCA ALUNO
             def idAluno():
-                sqlAluno = "SELECT idAluno FROM Aluno where nomeAluno=%s"
-                valueAluno = (novaMatricula.aluno)
-                cursor.execute(sqlAluno, valueAluno)
+                sqlIdAluno = "SELECT idAluno FROM Aluno where nomeAluno=%s"
+                valueIdAluno = (novaMatricula.aluno)
+                cursor.execute(sqlIdAluno, valueIdAluno)
 
-                resultAluno = cursor.fetchone()
-                for reAluno in resultAluno:
+                resultIdAluno = cursor.fetchone()
+                for reAluno in resultIdAluno:
                     return reAluno
 
             # SQL BUSCA TURMA
             def idTurma():
-                sqlTurma = "SELECT idTurma FROM Turma where nomeTurma=%s"
-                valueTurma = (novaMatricula.turma)
-                cursor.execute(sqlTurma, valueTurma)
+                sqlIdTurma = "SELECT idTurma FROM Turma where nomeTurma=%s"
+                valueIdTurma = (novaMatricula.turma)
+                cursor.execute(sqlIdTurma, valueIdTurma)
 
-                resultTurma = cursor.fetchone()
-                for reTurma in resultTurma:
+                resultIdTurma = cursor.fetchone()
+                for reTurma in resultIdTurma:
                     return reTurma
 
             # CRIA MATRICULA
@@ -72,18 +72,38 @@ class DAOMatricula:
 
     def updateMatricula(self):
         try:
-            nomeMatricula = input(
-                "Digite o nome da Matricula a ser atualizado: ")
+            idMatricula = input("Digite sua Matricula: ")
 
-            nomeMatriculaUpdate = input("Digite o novo nome: ")
-            formacao = input("Digite a sua nova formçao: ")
-            con = Conection.getConection('')
+            novaTurma = input('Digite a nova Tuma a ser atualizada')
+            novoAluno = input("Digite o nome do Aluno que deseja atualizar: ")
+
+            con = Conection.getConection("")
             cursor = con.cursor()
 
-            sqlInstrutorUpdate = "UPDATE Matricula set idAluno=%s, idTurma=%s where idMatricula=%s "
-            valuesInstrutorUpdate = (
-                nomeMatriculaUpdate, formacao, nomeMatricula)
-            cursor.execute(sqlInstrutorUpdate, valuesInstrutorUpdate)
+            # SQL BUSCA ALUNO
+            def idAluno():
+                sqlIdAluno = "SELECT idAluno FROM Aluno where nomeAluno=%s"
+                valueIdAluno = (novoAluno)
+                cursor.execute(sqlIdAluno, valueIdAluno)
+
+                resultIdAluno = cursor.fetchone()
+                for reAluno in resultIdAluno:
+                    return reAluno
+
+            # SQL BUSCA TURMA
+            def idTurma():
+                sqlIdTurma = "SELECT idTurma FROM Turma where nomeTurma=%s"
+                valueIdTurma = (novaTurma)
+                cursor.execute(sqlIdTurma, valueIdTurma)
+
+                resultIdTurma = cursor.fetchone()
+                for reTurma in resultIdTurma:
+                    return reTurma
+
+            sqlUpdateMatricula = "UPDATE Matricula set idTurma=%s, idAluno=%s where idMatricula=%s"
+            valuesUpdateMatricula = (idTurma(), idAluno(), idMatricula)
+            cursor.execute(sqlUpdateMatricula, valuesUpdateMatricula)
+
             con.commit()
 
         except TypeError as error:

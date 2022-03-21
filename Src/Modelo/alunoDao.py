@@ -206,3 +206,5 @@ class DAOAluno:
         finally:
             cursor.close()
             con.close()
+
+insert = DAOAluno.insertAluno('')
