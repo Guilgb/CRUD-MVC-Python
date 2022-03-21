@@ -121,4 +121,77 @@ class DAOTurma:
             con.close()
 
     def updateTurma(self):
-        pass
+        nomeTurma = input('Digite o nome da turma que você deseja atualizar: ')
+        novonometurma = input('Digite o novo nome da turma: ')
+        novahorai = input('Nova Hora inicial: ')
+        novahoraf = input('Nova Hora final: ')
+        novodiai = input('Novo dia inicial: ')
+        novodiaf = input('Novo dia final: ')
+        novaFilial = input('Nova filial')
+        novalocalidadefilial = input('Nova localidade da filial: ')
+        novoinstrutor = input('Novo instrutor')
+        novocurso = input('Novo Curso')
+
+        con = Conection.getConection('')
+        cursor = con.cursor()
+
+        def idFilial():
+            sqlIdFilial = "SELECT idFilial FROM Turma where nomeTurma=%s"
+            valueIdFilial = (nomeTurma)
+            cursor.execute(sqlIdFilial, valueIdFilial)
+
+            resultFilial = cursor.fetchone()
+            for reFilial in resultFilial:
+                return reFilial
+
+        def idInstrutor():
+            sqlIdInstrutor = "SELECT idInstrutor FROM Turma where nomeTurma=%s"
+            valueIdInstrutor = (nomeTurma)
+            cursor.execute(sqlIdInstrutor, valueIdInstrutor)
+
+            resultIdInstrutor = cursor.fetchone()
+            for reInstrutor in resultIdInstrutor:
+                return reInstrutor
+
+        def idInstrutorNovo():
+            newins = "SELECT idInstrutor FROM Instrutor where nomeInstrutor=%s"
+            valuenewins = (novoinstrutor)
+            cursor.execute(newins, valuenewins)
+            resultnIdInstrutor = cursor.fetchone()
+            for renInstrutor in resultnIdInstrutor:
+                return renInstrutor
+
+        def idCurso():
+            sqlIdCurso = "SELECT idCurso FROM Turma where nomeTurma=%s"
+            valueIdCurso = (nomeTurma)
+            cursor.execute(sqlIdCurso, valueIdCurso)
+            resultIdCurso = cursor.fetchone()
+            for reCurso in resultIdCurso:
+                return reCurso
+
+        # SQL UPDATE FILIAL
+
+        sqlUpdateFilial = "UPDATE Filial set nomeFilial=%s, localidadeFilial=%s where idFilial=%s "
+        valuesUpdateFilial = (novaFilial, novalocalidadefilial, idFilial())
+        cursor.execute(sqlUpdateFilial, valuesUpdateFilial)
+
+        # SQL UPDATE INSTRUTOR
+
+        sqlUpdateInstrutor = "UPDATE Turma set idInstrutor=%s where idInstrutor=%s"
+        valueUpdateinstrutor = (idInstrutor(), idInstrutorNovo())
+        cursor.execute(sqlUpdateInstrutor, valueUpdateinstrutor)
+
+        # SQL UPDATE CURSO
+        sqlUpdateCurso = "UPDATE Curso set nomeCurso=%s where idCurso=%s"
+        valueUpdateCurso = (novocurso, idCurso())
+        cursor.execute(sqlUpdateCurso, valueUpdateCurso)
+
+        # SQL UPDATE TURMA
+        sqlUpdateTurma = "UPDATE Turma set nomeTurma=%s, horaInicio=%s, horaFim=%s, diaInicio=%s, diaFim=%s"
+        valuesUpdateTurma = (novonometurma, novahorai,
+                             novahoraf, novodiai, novodiaf)
+        cursor.execute(sqlUpdateTurma, valuesUpdateTurma)
+        con.commit()
+
+
+update = DAOTurma.updateTurma('')
