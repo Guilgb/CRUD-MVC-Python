@@ -11,25 +11,25 @@ class DAOAluno:
     def __init__(self) -> None:
         pass
 
-    def insertAluno(self):
+    def insertAluno(i: list):
         try:
-            nomePessoa = input('\nSeu Nome:')
-            telefone = input('\nSeu Telefone:')
-            uf = input('\nSeu Estado:')
-            cidade = input('\nSua Cidade:')
-            escolaridade = input('\nSua Escolaridade:')
+            # nomePessoa = input('\nSeu Nome:')
+            # telefone = input('\nSeu Telefone:')
+            # uf = input('\nSeu Estado:')
+            # cidade = input('\nSua Cidade:')
+            # escolaridade = input('\nSua Escolaridade:')
 
             con = Conection.getConection('')
 
             cursor = con.cursor()
-            cadastrarAluno = input("Deseja cadrastrar um Aluno (y/n): ")
-            if(cadastrarAluno == 'y'):
-                telefones = Telefones(telefone)
-                estados = Estado(uf)
-                cidades = Cidade(cidade, estados)
-                escolaridades = Escolaridade(escolaridade)
-                novoAluno = Aluno(nomePessoa, telefones,
-                                  cidades, escolaridades)
+
+            nomePessoa = i[0]
+            telefones = Telefones(i[1])
+            estados = Estado(i[2])
+            cidades = Cidade(i[3], estados)
+            escolaridades = Escolaridade(i[4])
+            novoAluno = Aluno(nomePessoa, telefones,
+                              cidades, escolaridades)
 
             # SQL TELEFONE
             sqlTelefone = "INSERT INTO Telefones(numeroTelefone) value(%s)"
@@ -94,37 +94,25 @@ class DAOAluno:
         except TypeError as error:
             print("Failed ", error)
 
-        finally:
-            cursor.close()
-            con.close()
-            print('SQL Connection Close')
-
     def listarAlunos(self):
         try:
+            lista = []
             con = Conection.getConection("Iniciando Conexão")
             cursor = con.cursor()
-            sql = "select a.nomeAluno, t.numeroTelefone, c.nomeCidade, es.nomeEscolaridade from Aluno a inner join Telefones t on(a.idTelefone = t.idTelefone) inner join Cidades c on (a.idCidade = c.idCidade) inner join Escolaridade es on (a.idEscolaridade = es.idEscolaridade);"
+            sql = "select a.idAluno, a.nomeAluno, t.numeroTelefone, c.nomeCidade, es.nomeEscolaridade from Aluno a inner join Telefones t on(a.idTelefone = t.idTelefone) inner join Cidades c on (a.idCidade = c.idCidade) inner join Escolaridade es on(a.idEscolaridade = es.idEscolaridade)"
             cursor.execute(sql)
             records = cursor.fetchall()
 
-            for row in records:
-                print("Nome: =", row[0])
-                print("Telefone: =", row[1])
-                print("Cidade: =", row[2])
-                print("Escolaridade: =", row[3])
+            for i in records:
+                lista.append(i)
+            return lista
         except TypeError as error:
             print("Failed ", error)
 
-        finally:
-            cursor.close()
-            con.close()
-            print('SQL Connection Close')
-
-    def deleteAluno(self):
+    def deleteAluno(nomeAluno):
         try:
             con = Conection.getConection("Iniciando Conexão")
             cursor = con.cursor()
-            nomeAluno = input('Nome Aluno: ')
             sql = 'DELETE from Aluno where nomeAluno = %s'
             cursor.execute(sql, nomeAluno)
             con.commit()
@@ -206,5 +194,3 @@ class DAOAluno:
         finally:
             cursor.close()
             con.close()
-
-insert = DAOAluno.insertAluno('')
