@@ -1,4 +1,3 @@
-from turtle import update
 from estado import Estado
 from cidade import Cidade
 from escolaridade import Escolaridade
@@ -25,8 +24,8 @@ class DAOAluno:
 
             nomePessoa = i[0]
             telefones = Telefones(i[1])
-            estados = Estado(i[2])
-            cidades = Cidade(i[3], estados)
+            estados = Estado(i[3])
+            cidades = Cidade(i[2], estados)
             escolaridades = Escolaridade(i[4])
             novoAluno = Aluno(nomePessoa, telefones,
                               cidades, escolaridades)
@@ -124,66 +123,56 @@ class DAOAluno:
             con.close()
             print('SQL Connection Close')
 
-    def updateAluno(self):
+    def updateAluno(i: list):
         try:
-            nomeAluno = input("Aluno a ser atualizado: ")
-
-            novoNomeAluno = input("Digite o novo nome: ")
-            novoNumeroTelefone = input(
-                'Digite o seu novo numero de telefone: ')
-            novaCidade = input('Digite o nome da sua nova cidade: ')
-            novaEscolaridade = input('Digite sua nova Escolaridade: ')
-
             # CONNECTION
             con = Conection.getConection('')
             cursor = con.cursor()
 
             # SQL UPDATE NOME
-            sqlAlunoUpdate = "UPDATE Aluno set nomeAluno=%s where nomeAluno=%s "
+            sqlAlunoUpdate = "UPDATE Aluno set nomeAluno=%s where idAluno=%s "
             valuesAlunoUpdate = (
-                novoNomeAluno, nomeAluno)
+                i[1], i[0])
             cursor.execute(sqlAlunoUpdate, valuesAlunoUpdate)
 
             # SQL UPDATE TELEFONE
             def idTelefone():
-                sqlIdtelefone = "SELECT idTelefone FROM Aluno where nomeAluno=%s"
-                valueIdTelefones = (novoNomeAluno)
+                sqlIdtelefone = "SELECT idTelefone FROM Aluno where idAluno=%s"
+                valueIdTelefones = (i[0])
                 cursor.execute(sqlIdtelefone, valueIdTelefones)
                 resultTelefone = cursor.fetchone()
                 for reTelefone in resultTelefone:
                     return reTelefone
 
             sqlUpdateTelefone = "UPDATE Telefones set numeroTelefone=%s where idTelefone=%s"
-            valuesUpdateTelefone = (novoNumeroTelefone, idTelefone())
+            valuesUpdateTelefone = (i[2], idTelefone())
             cursor.execute(sqlUpdateTelefone, valuesUpdateTelefone)
 
             # SQL UPDATE CIDADE
 
             def idCidade():
-                sqlIdCidade = "SELECT idCidade FROM Aluno where nomeAluno=%s"
-                valueIdCidade = (novoNomeAluno)
+                sqlIdCidade = "SELECT idCidade FROM Aluno where idAluno=%s"
+                valueIdCidade = (i[0])
                 cursor.execute(sqlIdCidade, valueIdCidade)
                 resultCidade = cursor.fetchone()
                 for reCidade in resultCidade:
                     return reCidade
 
             sqlUpdateCidade = "UPDATE Cidades set nomeCidade=%s where idCidade=%s"
-            valuesUpdateCidade = (novaCidade, idCidade())
+            valuesUpdateCidade = (i[3], idCidade())
             cursor.execute(sqlUpdateCidade, valuesUpdateCidade)
 
             # SQL ESCOLARIDADE
             def idEscolaridade():
-                sqlIdEscolaridade = "SELECT idEscolaridade FROM Aluno where nomeAluno=%s"
-                valueIdEscolaridade = (novoNomeAluno)
+                sqlIdEscolaridade = "SELECT idEscolaridade FROM Aluno where idAluno=%s"
+                valueIdEscolaridade = (i[0])
                 cursor.execute(sqlIdEscolaridade, valueIdEscolaridade)
                 resultEscolaridade = cursor.fetchone()
                 for reEscolaridade in resultEscolaridade:
                     return reEscolaridade
 
-                    sqlUpdateCidade = "UPDATE Cidades set nomeCidade=%s where idCidade=%s"
-
             sqlUpdateEscolaridade = "UPDATE Escolaridade set nomeEscolaridade=%s where idEscolaridade=%s"
-            valuesUpdateEscolaridade = (novaEscolaridade, idEscolaridade())
+            valuesUpdateEscolaridade = (i[4], idEscolaridade())
             cursor.execute(sqlUpdateEscolaridade, valuesUpdateEscolaridade)
 
             con.commit()
@@ -191,6 +180,6 @@ class DAOAluno:
         except TypeError as error:
             print("Failed", error)
 
-        finally:
-            cursor.close()
-            con.close()
+
+# lista = ['Guilherme Gonçalves', 'telefone', 'CE', 'cidade', 'escolaridade']
+# inserir = DAOAluno.insertAluno(lista)

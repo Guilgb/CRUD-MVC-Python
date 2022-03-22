@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+
 from alunoDao import DAOAluno
 
 
@@ -39,6 +40,7 @@ frameDireita.grid(row=0, column=1, rowspan=2, padx=1, sticky=NSEW)
 
 # ___FUNCAO INSERIR __________________
 
+
 def inserir():
     nome = eNome.get()
     telefone = eTelefone.get()
@@ -63,7 +65,54 @@ def inserir():
 
 
 def atualizar():
-    pass
+    try:
+        treev_dados = tree.focus()
+        treev_dicionario = tree.item(treev_dados)
+        tree_lista = treev_dicionario['values']
+
+        valor = tree_lista[0]
+
+        eNome.delete(0, 'end')
+        eTelefone.delete(0, 'end')
+        eCidade.delete(0, 'end')
+        eEstado.delete(0, 'end')
+        eEscolaridade.delete(0, 'end')
+
+        eNome.insert(0, tree_lista[1])
+        eTelefone.insert(0, tree_lista[2])
+        eCidade.insert(0, tree_lista[3])
+        eEscolaridade.insert(0, tree_lista[4])
+
+        def update():
+            nome = eNome.get()
+            telefone = eTelefone.get()
+            cidade = eCidade.get()
+            # estado = eEstado.get()
+            escolaridae = eEscolaridade.get()
+
+            lista = [valor, nome, telefone, cidade, escolaridae]
+            if nome == '':
+                messagebox.showerror('Campo Nulo')
+            else:
+                DAOAluno.updateAluno(lista)
+                eNome.delete(0, 'end')
+                eTelefone.delete(0, 'end')
+                eCidade.delete(0, 'end')
+                eEstado.delete(0, 'end')
+                eEscolaridade.delete(0, 'end')
+
+            for widget in frameDireita.winfo_children():
+                widget.destroy()
+
+            mostrar()
+
+            # CONFIRMAR
+        bConfirma = Button(frameBaixo, command=update, text='CONFIRMAR', anchor=NW, font=(
+            'rainyhearts 10'), bg=backgroudbox, fg=foreground, relief='raised')
+        bConfirma.place(x=100, y=340)
+
+    except TypeError as error:
+        print("Failed", error)
 
 
 def deletar():
@@ -135,7 +184,7 @@ bInserir.place(x=30, y=300)
 
 # ______BOTAO UPDATE__________
 
-bAtualizar = Button(frameBaixo, text='Atualizar', anchor=NW, font=(
+bAtualizar = Button(frameBaixo, command=atualizar, text='Atualizar', anchor=NW, font=(
     'rainyhearts 12'), bg=backgroudbox, fg=foreground, relief='raised')
 bAtualizar.place(x=100, y=300)
 
@@ -151,6 +200,7 @@ bDelete.place(x=190, y=300)
 
 
 def mostrar():
+    global tree
     lista = DAOAluno.listarAlunos('')
     tabela_head = ['ID', 'Nome',  'Telefone', 'Cidade', 'Escolaridade']
 
