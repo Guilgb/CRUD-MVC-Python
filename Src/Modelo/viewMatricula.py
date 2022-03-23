@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
-from alunoDao import DAOAluno
+from matriculaDAO import DAOMatricula
 
 
 # -------------------CORES -----------------
@@ -13,7 +13,7 @@ backgroundaux = "#4362a8"
 foreground = "#ffffff"
 
 
-def crudALuno():
+def crudMatricula():
     # _______INICIANDO O APP_______________
 
     janela = Tk(screenName="CRUD")
@@ -40,22 +40,16 @@ def crudALuno():
     # ___FUNCAO INSERIR __________________
 
     def inserir():
-        nome = eNome.get()
-        telefone = eTelefone.get()
-        cidade = eCidade.get()
-        estado = eEstado.get()
-        escolaridae = eEscolaridade.get()
+        aluno = eNomeAluno.get()
+        turma = eNomeTurma.get()
 
-        lista = [nome, telefone, cidade, estado, escolaridae]
-        if nome == '':
+        lista = [aluno, turma]
+        if aluno == '':
             messagebox.showerror('Campo Nulo')
         else:
-            DAOAluno.insertAluno(lista)
-            eNome.delete(0, 'end')
-            eTelefone.delete(0, 'end')
-            eCidade.delete(0, 'end')
-            eEstado.delete(0, 'end')
-            eEscolaridade.delete(0, 'end')
+            DAOMatricula.inserirMatricula(lista)
+            eNomeAluno.delete(0, 'end')
+            eNomeTurma.delete(0, 'end')
 
         for widget in frameDireita.winfo_children():
             widget.destroy()
@@ -69,34 +63,23 @@ def crudALuno():
 
             valor = tree_lista[0]
 
-            eNome.delete(0, 'end')
-            eTelefone.delete(0, 'end')
-            eCidade.delete(0, 'end')
-            eEstado.delete(0, 'end')
-            eEscolaridade.delete(0, 'end')
+            eNomeAluno.delete(0, 'end')
+            eNomeTurma.delete(0, 'end')
 
-            eNome.insert(0, tree_lista[1])
-            eTelefone.insert(0, tree_lista[2])
-            eCidade.insert(0, tree_lista[3])
-            eEscolaridade.insert(0, tree_lista[4])
+            eNomeAluno.insert(0, tree_lista[1])
+            eNomeTurma.insert(0, tree_lista[2])
 
             def update():
-                nome = eNome.get()
-                telefone = eTelefone.get()
-                cidade = eCidade.get()
-                # estado = eEstado.get()
-                escolaridae = eEscolaridade.get()
+                aluno = eNomeAluno.get()
+                turma = eNomeTurma.get()
 
-                lista = [valor, nome, telefone, cidade, escolaridae]
-                if nome == '':
+                lista = [valor, aluno, turma]
+                if aluno == '':
                     messagebox.showerror('Campo Nulo')
                 else:
-                    DAOAluno.updateAluno(lista)
-                    eNome.delete(0, 'end')
-                    eTelefone.delete(0, 'end')
-                    eCidade.delete(0, 'end')
-                    eEstado.delete(0, 'end')
-                    eEscolaridade.delete(0, 'end')
+                    DAOMatricula.updateMatricula(lista)
+                    eNomeAluno.delete(0, 'end')
+                    eNomeTurma.delete(0, 'end')
 
                 for widget in frameDireita.winfo_children():
                     widget.destroy()
@@ -112,60 +95,33 @@ def crudALuno():
             print("Failed", error)
 
     def deletar():
-        nome = eNome.get()
-        DAOAluno.deleteAluno(nome)
+        nome = eNomeAluno.get()
+        DAOMatricula.deletMatricula(nome)
         mostrar()
 
-    # __________________LABEL CIMA _____________
-    appName = Label(frameCima, text='CRUD', anchor=NW, font=(
+    # __________________NOME CRUD_____________
+    appName = Label(frameCima, text='CRUD MATRICULA', anchor=NW, font=(
         'rainyhearts 30'), bg=backgroundaux, fg=textcolor, relief='flat')
-    appName.place(x=100, y=5)
+    appName.place(x=5, y=5)
 
-    # __________________LABEL CIMA _____________
+    # _________________ ALUNO _____________
 
-    lNome = Label(frameBaixo, text='Nome:', anchor=NW, font=(
+    lAuno = Label(frameBaixo, text='Aluno:', anchor=NW, font=(
         'rainyhearts 15'), bg=backgroundcolor, fg=textcolor, relief='flat')
-    lNome.place(x=15, y=10)
+    lAuno.place(x=15, y=10)
 
-    eNome = Entry(frameBaixo, justify='left',
-                  relief='solid', width=45, bg=backgroudbox, fg=foreground)
-    eNome.place(x=15, y=40)
+    eNomeAluno = Entry(frameBaixo, justify='left',
+                       relief='solid', width=45, bg=backgroudbox, fg=foreground)
+    eNomeAluno.place(x=15, y=40)
 
-    # ______________TELEFONE__________
-    lTelefone = Label(frameBaixo, text='Telefone:', anchor=NW, font=(
+    # ______________Turma__________
+    lTurma = Label(frameBaixo, text='Turma:', anchor=NW, font=(
         'rainyhearts 15'), bg=backgroundcolor, fg=textcolor, relief='flat')
-    lTelefone.place(x=15, y=70)
+    lTurma.place(x=15, y=70)
 
-    eTelefone = Entry(frameBaixo, justify='left',
-                      relief='solid', width=45, bg=backgroudbox, fg=foreground)
-    eTelefone.place(x=15, y=100)
-
-    # ______________ESTADO__________
-    lEstado = Label(frameBaixo, text='Estado:', anchor=NW, font=(
-        'rainyhearts 15'), bg=backgroundcolor, fg=textcolor, relief='flat')
-    lEstado.place(x=15, y=130)
-
-    eEstado = Entry(frameBaixo, justify='left',
-                    relief='solid', width=45, bg=backgroudbox, fg=foreground)
-    eEstado.place(x=15, y=160)
-
-    # ______________CIDADE__________
-    lCidade = Label(frameBaixo, text='Cidade:', anchor=NW, font=(
-        'rainyhearts 15'), bg=backgroundcolor, fg=textcolor, relief='flat')
-    lCidade.place(x=15, y=190)
-
-    eCidade = Entry(frameBaixo, justify='left',
-                    relief='solid', width=45, bg=backgroudbox, fg=foreground)
-    eCidade.place(x=15, y=210)
-
-    # ______________ESCOLARIDADE__________
-    lEscolaridade = Label(frameBaixo, text='Escolaridade:', anchor=NW, font=(
-        'rainyhearts 15'), bg=backgroundcolor, fg=textcolor, relief='flat')
-    lEscolaridade.place(x=15, y=240)
-
-    eEscolaridade = Entry(frameBaixo, justify='left',
-                          relief='solid', width=45, bg=backgroudbox, fg=foreground)
-    eEscolaridade.place(x=15, y=270)
+    eNomeTurma = Entry(frameBaixo, justify='left',
+                       relief='solid', width=45, bg=backgroudbox, fg=foreground)
+    eNomeTurma.place(x=15, y=100)
 
     # ______BOTAO INSERIR__________
 
@@ -189,8 +145,8 @@ def crudALuno():
 
     def mostrar():
         global tree
-        lista = DAOAluno.listarAlunos('')
-        tabela_head = ['ID', 'Nome',  'Telefone', 'Cidade', 'Escolaridade']
+        lista = DAOMatricula.listarMatricula('')
+        tabela_head = ['ID', 'Nome do Aluno',  'Nome da Turma']
 
         # criando a tabela
         tree = ttk.Treeview(frameDireita, selectmode="extended",
@@ -211,8 +167,8 @@ def crudALuno():
 
         frameDireita.grid_rowconfigure(0, weight=12)
 
-        hd = ["nw", "nw", "nw", "center", "center"]
-        h = [50, 200, 160, 135, 170]
+        hd = ["nw", "center", "center"]
+        h = [110, 305, 305]
         n = 0
 
         for col in tabela_head:
@@ -226,7 +182,7 @@ def crudALuno():
             tree.insert('', 'end', values=item)
 
     mostrar()
-
     janela.mainloop()
 
-crudALuno()
+
+crudMatricula()

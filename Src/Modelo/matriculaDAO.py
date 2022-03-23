@@ -6,16 +6,10 @@ class DAOMatricula:
     def __init__(self) -> None:
         pass
 
-    def inserirMatricula(self):
+    def inserirMatricula(i: list):
         try:
-            nomeTurma = input(
-                "Digite o nome da turma na qual deseja cadastrar: ")
-            aluno = input('Digite o nome do aluno a cadastrar: ')
 
-            cadastroMatricula = input(
-                'Deseja realmente cadastrar sua matricula (y/n): ')
-            if(cadastroMatricula == 'y'):
-                novaMatricula = Matricula(aluno, nomeTurma)
+            novaMatricula = Matricula(i[0], i[1])
 
             # CONEXÃO COM O BANCO
             con = Conection.getConection("")
@@ -54,15 +48,22 @@ class DAOMatricula:
             con.close()
             print('CONNECTION CLOSE')
 
-    def deletMatricula(self):
+    def deletMatricula(nomeAluno):
         try:
-            idMatricula = input(
-                "Digite o IDe da matricula a ser deletada: ")
-
             con = Conection.getConection('')
             cursor = con.cursor()
-            sql = "DELETE from Matricula where idMatricula = %s"
-            cursor.execute(sql, idMatricula)
+
+            def idAluno():
+                sqlIdAluno = "SELECT idAluno FROM Aluno where nomeAluno=%s"
+                valueIdAluno = (nomeAluno)
+                cursor.execute(sqlIdAluno, valueIdAluno)
+
+                resultIdAluno = cursor.fetchone()
+                for reAluno in resultIdAluno:
+                    return reAluno
+
+            sql = "DELETE from Matricula where idAluno = %s"
+            cursor.execute(sql, idAluno())
         except TypeError as error:
             print("Failed", error)
 
@@ -112,3 +113,22 @@ class DAOMatricula:
         finally:
             cursor.close()
             con.close()
+
+    def listarMatricula(self):
+        try:
+            lista = []
+            con = Conection.getConection("Iniciando Conexão")
+            cursor = con.cursor()
+            sql = "select m.idMatricula, a.nomeAluno, t.nomeTurma from Matricula m inner join Aluno a on(m.idAluno = a.idAluno) inner join Turma t on (m.idTurma = t.idTurma);"
+            cursor.execute(sql)
+            records = cursor.fetchall()
+
+            for i in records:
+                lista.append(i)
+            return lista
+        except TypeError as error:
+            print("Failed ", error)
+
+
+# lista = ['Gael', 'S1']
+# insert = DAOMatricula.inserirMatricula(lista)
