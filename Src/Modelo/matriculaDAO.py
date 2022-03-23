@@ -71,20 +71,15 @@ class DAOMatricula:
             cursor.close()
             con.close()
 
-    def updateMatricula(self):
+    def updateMatricula(i: list):
         try:
-            idMatricula = input("Digite sua Matricula: ")
-
-            novaTurma = input('Digite a nova Tuma a ser atualizada')
-            novoAluno = input("Digite o nome do Aluno que deseja atualizar: ")
-
             con = Conection.getConection("")
             cursor = con.cursor()
 
             # SQL BUSCA ALUNO
             def idAluno():
                 sqlIdAluno = "SELECT idAluno FROM Aluno where nomeAluno=%s"
-                valueIdAluno = (novoAluno)
+                valueIdAluno = (i[1])
                 cursor.execute(sqlIdAluno, valueIdAluno)
 
                 resultIdAluno = cursor.fetchone()
@@ -94,7 +89,7 @@ class DAOMatricula:
             # SQL BUSCA TURMA
             def idTurma():
                 sqlIdTurma = "SELECT idTurma FROM Turma where nomeTurma=%s"
-                valueIdTurma = (novaTurma)
+                valueIdTurma = (i[2])
                 cursor.execute(sqlIdTurma, valueIdTurma)
 
                 resultIdTurma = cursor.fetchone()
@@ -102,7 +97,7 @@ class DAOMatricula:
                     return reTurma
 
             sqlUpdateMatricula = "UPDATE Matricula set idTurma=%s, idAluno=%s where idMatricula=%s"
-            valuesUpdateMatricula = (idTurma(), idAluno(), idMatricula)
+            valuesUpdateMatricula = (idTurma(), idAluno(), i[0])
             cursor.execute(sqlUpdateMatricula, valuesUpdateMatricula)
 
             con.commit()
@@ -128,7 +123,3 @@ class DAOMatricula:
             return lista
         except TypeError as error:
             print("Failed ", error)
-
-
-# lista = ['Gael', 'S1']
-# insert = DAOMatricula.inserirMatricula(lista)

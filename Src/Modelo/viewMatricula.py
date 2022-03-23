@@ -40,16 +40,16 @@ def crudMatricula():
     # ___FUNCAO INSERIR __________________
 
     def inserir():
-        aluno = eNomeAluno.get()
-        turma = eNomeTurma.get()
+        aluno = eAluno.get()
+        turma = eTurma.get()
 
         lista = [aluno, turma]
         if aluno == '':
             messagebox.showerror('Campo Nulo')
         else:
             DAOMatricula.inserirMatricula(lista)
-            eNomeAluno.delete(0, 'end')
-            eNomeTurma.delete(0, 'end')
+            eAluno.delete(0, 'end')
+            eTurma.delete(0, 'end')
 
         for widget in frameDireita.winfo_children():
             widget.destroy()
@@ -63,23 +63,23 @@ def crudMatricula():
 
             valor = tree_lista[0]
 
-            eNomeAluno.delete(0, 'end')
-            eNomeTurma.delete(0, 'end')
+            eAluno.delete(0, 'end')
+            eTurma.delete(0, 'end')
 
-            eNomeAluno.insert(0, tree_lista[1])
-            eNomeTurma.insert(0, tree_lista[2])
+            eAluno.insert(0, tree_lista[1])
+            eTurma.insert(0, tree_lista[2])
 
             def update():
-                aluno = eNomeAluno.get()
-                turma = eNomeTurma.get()
+                aluno = eAluno.get()
+                turma = eTurma.get()
 
                 lista = [valor, aluno, turma]
                 if aluno == '':
                     messagebox.showerror('Campo Nulo')
                 else:
                     DAOMatricula.updateMatricula(lista)
-                    eNomeAluno.delete(0, 'end')
-                    eNomeTurma.delete(0, 'end')
+                    eAluno.delete(0, 'end')
+                    eTurma.delete(0, 'end')
 
                 for widget in frameDireita.winfo_children():
                     widget.destroy()
@@ -95,7 +95,7 @@ def crudMatricula():
             print("Failed", error)
 
     def deletar():
-        nome = eNomeAluno.get()
+        nome = eAluno.get()
         DAOMatricula.deletMatricula(nome)
         mostrar()
 
@@ -110,18 +110,18 @@ def crudMatricula():
         'rainyhearts 15'), bg=backgroundcolor, fg=textcolor, relief='flat')
     lAuno.place(x=15, y=10)
 
-    eNomeAluno = Entry(frameBaixo, justify='left',
-                       relief='solid', width=45, bg=backgroudbox, fg=foreground)
-    eNomeAluno.place(x=15, y=40)
+    eAluno = Entry(frameBaixo, justify='left',
+                   relief='solid', width=45, bg=backgroudbox, fg=foreground)
+    eAluno.place(x=15, y=40)
 
     # ______________Turma__________
     lTurma = Label(frameBaixo, text='Turma:', anchor=NW, font=(
         'rainyhearts 15'), bg=backgroundcolor, fg=textcolor, relief='flat')
     lTurma.place(x=15, y=70)
 
-    eNomeTurma = Entry(frameBaixo, justify='left',
-                       relief='solid', width=45, bg=backgroudbox, fg=foreground)
-    eNomeTurma.place(x=15, y=100)
+    eTurma = Entry(frameBaixo, justify='left',
+                   relief='solid', width=45, bg=backgroudbox, fg=foreground)
+    eTurma.place(x=15, y=100)
 
     # ______BOTAO INSERIR__________
 
