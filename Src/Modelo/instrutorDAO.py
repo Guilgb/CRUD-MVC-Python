@@ -9,24 +9,16 @@ class DAOInstrutor:
     def __init__(self) -> None:
         pass
 
-    def inserirInstrutor(self):
+    def inserirInstrutor(i: list):
         try:
-            nomePessoa = input('\nSeu Nome:')
-            formacao = input("\nDigite sua formação: ")
-            telefone = input('\nSeu Telefone:')
-            uf = input('\nSeu Estado:')
-            cidade = input('\nSua Cidade:')
-
             con = Conection.getConection('')
 
             cursor = con.cursor()
-            cadastrarInstrutor = input("Deseja cadrastrar um Aluno (y/n): ")
-            if(cadastrarInstrutor == 'y'):
-                telefones = Telefones(telefone)
-                estados = Estado(uf)
-                cidades = Cidade(cidade, estados)
-                novoInstrutor = Instrutor(
-                    nomePessoa, telefones, cidades, formacao)
+            telefones = Telefones(i[1])
+            estados = Estado(i[3])
+            cidades = Cidade(i[2], estados)
+            novoInstrutor = Instrutor(
+                i[0], telefones, cidades, i[4])
 
             # SQL TELEFONE
             sqlTelefone = "INSERT INTO Telefones(numeroTelefone) value(%s)"
@@ -84,15 +76,13 @@ class DAOInstrutor:
             con.close()
             print('CONNECTION CLOSE')
 
-    def deleteInstrutor(self):
+    def deleteInstrutor(nomeInstrutor):
         try:
-            nomeInstrutor = input(
-                "Digite o nome do instrutor a ser deletado: ")
-
             con = Conection.getConection('')
             cursor = con.cursor()
             sql = "DELETE from Instrutor where nomeInstrutor = %s"
-            cursor.execute(sql, nomeInstrutor)
+            value = (nomeInstrutor)
+            cursor.execute(sql, value)
         except TypeError as error:
             print("Failed", error)
 
@@ -100,55 +90,44 @@ class DAOInstrutor:
             cursor.close()
             con.close()
 
-    def updateInstrutor(self):
+    def updateInstrutor(i: list):
         try:
-            nomeInstrutor = input(
-                "Digite o nome do instrutor a ser atualizado: ")
-
-            nomeInstrutorUpdate = input("Digite o novo nome: ")
-            formacao = input("Digite a sua nova formçao: ")
-            novoNumeroTelefone = input(
-                'Digite o seu novo numero de telefone: ')
-            novaCidade = input('Digite o nome da sua nova cidade:')
-
             # CONNECTION
             con = Conection.getConection('')
             cursor = con.cursor()
 
             # SQL UPDATE NOME
-            sqlInstrutorUpdate = "UPDATE Instrutor set nomeInstrutor=%s, formacao=%s where nomeInstrutor=%s "
+            sqlInstrutorUpdate = "UPDATE Instrutor set nomeInstrutor=%s, formacao=%s where idInstrutor=%s "
             valuesInstrutorUpdate = (
-                nomeInstrutorUpdate, formacao, nomeInstrutor)
+                i[1], i[4], i[0])
             cursor.execute(sqlInstrutorUpdate, valuesInstrutorUpdate)
 
             # SQL UPDATE TELEFONE
             def idTelefone():
-                sqlIdtelefone = "SELECT idTelefone FROM Instrutor where nomeInstrutor=%s"
-                valueIdTelefones = (nomeInstrutorUpdate)
+                sqlIdtelefone = "SELECT idTelefone FROM Instrutor where idInstrutor=%s"
+                valueIdTelefones = (i[0])
                 cursor.execute(sqlIdtelefone, valueIdTelefones)
                 resultTelefone = cursor.fetchone()
                 for reTelefone in resultTelefone:
                     return reTelefone
 
             sqlUpdateTelefone = "UPDATE Telefones set numeroTelefone=%s where idTelefone=%s"
-            valuesUpdateTelefone = (novoNumeroTelefone, idTelefone())
+            valuesUpdateTelefone = (i[2], idTelefone())
             cursor.execute(sqlUpdateTelefone, valuesUpdateTelefone)
 
             # SQL UPDATE CIDADE
 
             def idCidade():
-                sqlIdCidade = "SELECT idCidade FROM Instrutor where nomeInstrutor=%s"
-                valueIdCidade = (nomeInstrutorUpdate)
+                sqlIdCidade = "SELECT idCidade FROM Instrutor where idInstrutor=%s"
+                valueIdCidade = (i[0])
                 cursor.execute(sqlIdCidade, valueIdCidade)
                 resultCidade = cursor.fetchone()
                 for reCidade in resultCidade:
                     return reCidade
 
             sqlUpdateCidade = "UPDATE Cidades set nomeCidade=%s where idCidade=%s"
-            valuesUpdateCidade = (novaCidade, idCidade())
+            valuesUpdateCidade = (i[3], idCidade())
             cursor.execute(sqlUpdateCidade, valuesUpdateCidade)
-
-            con.commit()
 
             con.commit()
 
@@ -159,5 +138,21 @@ class DAOInstrutor:
             cursor.close()
             con.close()
 
+    def listarInstrutor(self):
+        try:
+            lista = []
+            con = Conection.getConection("Iniciando Conexão")
+            cursor = con.cursor()
+            sql = "select i.idInstrutor, i.nomeInstrutor, t.numeroTelefone, c.nomeCidade, i.formacao from Instrutor i inner join Telefones t on(i.idTelefone = t.idTelefone) inner join Cidades c on(i.idCidade = c.idCidade)"
+            cursor.execute(sql)
+            records = cursor.fetchall()
 
-inserir = DAOInstrutor.inserirInstrutor('')
+            for i in records:
+                lista.append(i)
+            return lista
+        except TypeError as error:
+            print("Failed ", error)
+
+
+# lista = ['NOME', 'TELEFONE', 'CIDADE', 'ESTADO', 'FORMCAO']
+# init = DAOInstrutor.inserirInstrutor(lista)
