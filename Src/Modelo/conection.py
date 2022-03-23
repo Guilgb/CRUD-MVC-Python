@@ -10,6 +10,6 @@ class Conection:
             host='localhost',
             user='root',
             password='',
-            database='crud2'
+            database='crud'
         )
         return con

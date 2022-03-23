@@ -158,3 +158,6 @@ class DAOInstrutor:
         finally:
             cursor.close()
             con.close()
+
+
+inserir = DAOInstrutor.inserirInstrutor('')

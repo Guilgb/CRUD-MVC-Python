@@ -9,30 +9,14 @@ class DAOTurma:
     def __init__(self) -> None:
         pass
 
-    def inserirTurma(self):
+    def inserirTurma(i: list):
         try:
-            nomeTurma = input('Digite o nome da turma:')
-            horaInicio = input('Hora incio: ')
-            horaFim = input('Hora fim: ')
-            diaInicio = input('Dia inicio: ')
-            diaFim = input('Dia fim: ')
-            nomeCurso = input('Digite a area do curso: ')
-            chCurso = input('Digite o CH do curso: ')
-            nomeArea = input('Digit o nome da Area: ')
-            nomeFilial = input('Digite a sua filial: ')
-            localidade = input('Digite a localidade: ')
-            nomeInstrutor = input(
-                'Digite o nome do instrutor a ser cadastrado: ')
-
-            cadastrarTurma = input('Deseja cadastrar turma ? y/n ')
-
-            if(cadastrarTurma == 'y'):
-                area = Area(nomeArea)
-                curso = Curso(nomeCurso, chCurso, area)
-                filial = Filial(nomeFilial, localidade)
-                novaTurma = Turma(nomeTurma, horaInicio, horaFim,
-                                  diaInicio, diaFim, curso,
-                                  filial, nomeInstrutor)
+            area = Area(i[5])
+            curso = Curso(i[6], i[7], area)
+            filial = Filial(i[8], i[9])
+            novaTurma = Turma(i[0], i[1], i[2],
+                              i[3], i[4], curso,
+                              filial, i[10])
 
             con = Conection.getConection("Inciando conexão")
             cursor = con.cursor()
@@ -104,15 +88,13 @@ class DAOTurma:
             con.close()
             print('CONNECTION CLOSE')
 
-    def deleteTurma(self):
+    def deleteTurma(nomeTurma):
         try:
-            nomeTurma = input(
-                "Digite o nome da turma a ser deletado: ")
-
             con = Conection.getConection('')
             cursor = con.cursor()
             sql = "DELETE from Turma where nomeTurma = %s"
-            cursor.execute(sql, nomeTurma)
+            value = (nomeTurma)
+            cursor.execute(sql, value)
         except TypeError as error:
             print("Failed", error)
 
@@ -120,24 +102,13 @@ class DAOTurma:
             cursor.close()
             con.close()
 
-    def updateTurma(self):
-        nomeTurma = input('Digite o nome da turma que você deseja atualizar: ')
-        novonometurma = input('Digite o novo nome da turma: ')
-        novahorai = input('Nova Hora inicial: ')
-        novahoraf = input('Nova Hora final: ')
-        novodiai = input('Novo dia inicial: ')
-        novodiaf = input('Novo dia final: ')
-        novaFilial = input('Nova filial')
-        novalocalidadefilial = input('Nova localidade da filial: ')
-        novoinstrutor = input('Novo instrutor')
-        novocurso = input('Novo Curso')
-
+    def updateTurma(i: list):
         con = Conection.getConection('')
         cursor = con.cursor()
 
         def idFilial():
-            sqlIdFilial = "SELECT idFilial FROM Turma where nomeTurma=%s"
-            valueIdFilial = (nomeTurma)
+            sqlIdFilial = "SELECT idFilial FROM Turma where idTurma=%s"
+            valueIdFilial = (i[0])
             cursor.execute(sqlIdFilial, valueIdFilial)
 
             resultFilial = cursor.fetchone()
@@ -145,8 +116,8 @@ class DAOTurma:
                 return reFilial
 
         def idInstrutor():
-            sqlIdInstrutor = "SELECT idInstrutor FROM Turma where nomeTurma=%s"
-            valueIdInstrutor = (nomeTurma)
+            sqlIdInstrutor = "SELECT idInstrutor FROM Turma where idTurma=%s"
+            valueIdInstrutor = (i[0])
             cursor.execute(sqlIdInstrutor, valueIdInstrutor)
 
             resultIdInstrutor = cursor.fetchone()
@@ -155,15 +126,15 @@ class DAOTurma:
 
         def idInstrutorNovo():
             newins = "SELECT idInstrutor FROM Instrutor where nomeInstrutor=%s"
-            valuenewins = (novoinstrutor)
+            valuenewins = (i[10])
             cursor.execute(newins, valuenewins)
             resultnIdInstrutor = cursor.fetchone()
             for renInstrutor in resultnIdInstrutor:
                 return renInstrutor
 
         def idCurso():
-            sqlIdCurso = "SELECT idCurso FROM Turma where nomeTurma=%s"
-            valueIdCurso = (nomeTurma)
+            sqlIdCurso = "SELECT idCurso FROM Turma where idTurma=%s"
+            valueIdCurso = (i[0])
             cursor.execute(sqlIdCurso, valueIdCurso)
             resultIdCurso = cursor.fetchone()
             for reCurso in resultIdCurso:
@@ -172,7 +143,7 @@ class DAOTurma:
         # SQL UPDATE FILIAL
 
         sqlUpdateFilial = "UPDATE Filial set nomeFilial=%s, localidadeFilial=%s where idFilial=%s "
-        valuesUpdateFilial = (novaFilial, novalocalidadefilial, idFilial())
+        valuesUpdateFilial = (i[8], i[9], idFilial())
         cursor.execute(sqlUpdateFilial, valuesUpdateFilial)
 
         # SQL UPDATE INSTRUTOR
@@ -182,13 +153,30 @@ class DAOTurma:
         cursor.execute(sqlUpdateInstrutor, valueUpdateinstrutor)
 
         # SQL UPDATE CURSO
-        sqlUpdateCurso = "UPDATE Curso set nomeCurso=%s where idCurso=%s"
-        valueUpdateCurso = (novocurso, idCurso())
+        sqlUpdateCurso = "UPDATE Curso set nomeCurso=%s, chCurso=%s where idCurso=%s"
+        valueUpdateCurso = (i[6], i[7], idCurso())
         cursor.execute(sqlUpdateCurso, valueUpdateCurso)
 
+        # SQL NOME TURMA
+
         # SQL UPDATE TURMA
-        sqlUpdateTurma = "UPDATE Turma set nomeTurma=%s, horaInicio=%s, horaFim=%s, diaInicio=%s, diaFim=%s"
-        valuesUpdateTurma = (novonometurma, novahorai,
-                             novahoraf, novodiai, novodiaf)
+        sqlUpdateTurma = "UPDATE Turma set nomeTurma=%s, horaInicio=%s, horaFim=%s, diaInicio=%s, diaFim=%s where idTurma=%s"
+        valuesUpdateTurma = (i[1], i[2],
+                             i[3], i[4], i[5], i[0])
         cursor.execute(sqlUpdateTurma, valuesUpdateTurma)
         con.commit()
+
+    def listarTurma(self):
+        try:
+            lista = []
+            con = Conection.getConection("Iniciando Conexão")
+            cursor = con.cursor()
+            sql = "select t.idTurma, t.nomeTurma, t.horaInicio, t.horaFim, t.diaInicio, t.diaFim, c.nomeCurso, c.chCurso, f.nomeFilial, f.localidadeFilial, i.nomeInstrutor from Turma t inner join Curso c on(t.idCurso = c.idCurso) inner join Filial f on(t.idFilial = f.idFilial) inner join Instrutor i on(t.idInstrutor = i.idInstrutor);"
+            cursor.execute(sql)
+            records = cursor.fetchall()
+
+            for i in records:
+                lista.append(i)
+            return lista
+        except TypeError as error:
+            print("Failed ", error)
