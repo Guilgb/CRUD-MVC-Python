@@ -12,12 +12,6 @@ class DAOAluno:
 
     def insertAluno(i: list):
         try:
-            # nomePessoa = input('\nSeu Nome:')
-            # telefone = input('\nSeu Telefone:')
-            # uf = input('\nSeu Estado:')
-            # cidade = input('\nSua Cidade:')
-            # escolaridade = input('\nSua Escolaridade:')
-
             con = Conection.getConection('')
 
             cursor = con.cursor()
@@ -181,5 +175,5 @@ class DAOAluno:
             print("Failed", error)
 
 
-# lista = ['Guilherme Gonçalves', 'telefone', 'CE', 'cidade', 'escolaridade']
-# inserir = DAOAluno.insertAluno(lista)
+lista = ['Guilherme Gonçalves', 'telefone', 'CE', 'cidade', 'escolaridade']
+inserir = DAOAluno.insertAluno(lista)

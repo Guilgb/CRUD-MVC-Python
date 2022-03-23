@@ -1,3 +1,4 @@
+from cProfile import label
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -31,25 +32,31 @@ def mainApp():
                        background=backgroundcolor, relief='flat')
     frameBaixo.grid(row=0, column=0)
 
+    # ___________LABEL____________
+
+    label = Label(frameBaixo, anchor='center', text='CRUD', font=(
+        'rainyhearts 70'), bg=backgroundcolor, fg=textcolor)
+    label.place(x=235, y=30)
+
     # ______ALUNO__________
     bInserir = Button(frameBaixo, command=ViewAluno.crudALuno, width=12, height=1, text='ALUNO', anchor='center', font=(
         'rainyhearts 15'), bg=foreground, fg=textcolor, relief='raised')
-    bInserir.place(x=15, y=180)
+    bInserir.place(x=15, y=160)
 
     # ______INSTRUTOR__________
     bInserir = Button(frameBaixo, command=ViewInstrutor.crudInstrutor, width=15, height=1, text='INSTRUTOR', anchor='center', font=(
         'rainyhearts 15'), bg=foreground, fg=textcolor, relief='raised')
-    bInserir.place(x=165, y=180)
+    bInserir.place(x=165, y=160)
 
     # ______TURMA__________
     bInserir = Button(frameBaixo, command=ViewTurma.crudTurma, width=15, height=1, text='TURMA', anchor='center', font=(
         'rainyhearts 15'), bg=foreground, fg=textcolor, relief='raised')
-    bInserir.place(x=345, y=180)
+    bInserir.place(x=345, y=160)
 
     # ______MATRICILA__________
     bInserir = Button(frameBaixo, command=ViewMatricula.crudMatricula, width=15, height=1, text='MATRICULA', anchor='center', font=(
         'rainyhearts 15'), bg=foreground, fg=textcolor, relief='raised')
-    bInserir.place(x=525, y=180)
+    bInserir.place(x=525, y=160)
 
     janela.mainloop()
 
