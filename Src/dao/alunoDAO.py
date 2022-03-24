@@ -3,7 +3,7 @@ from src.modelo.Cidade import Cidade
 from src.modelo.Escolaridade import Escolaridade
 from src.modelo.Telefones import Telefones
 from src.modelo.Aluno import Aluno
-from src.modelo.Conection import Conection
+from src.controller.conection import Conection
 
 
 class DAOAluno:

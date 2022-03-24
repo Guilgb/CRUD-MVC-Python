@@ -1,8 +1,8 @@
 from src.modelo.Curso import Curso
 from src.modelo.Filial import Filial
 from src.modelo.Area import Area
-from src.modelo.Conection import Conection
 from src.modelo.Turma import Turma
+from src.controller.conection import Conection
 
 
 class DAOTurma:
