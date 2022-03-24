@@ -1,9 +1,9 @@
-from estado import Estado
-from cidade import Cidade
-from escolaridade import Escolaridade
-from telefones import Telefones
-from aluno import Aluno
-from conection import Conection
+from src.modelo.Estado import Estado
+from src.modelo.Cidade import Cidade
+from src.modelo.Escolaridade import Escolaridade
+from src.modelo.Telefones import Telefones
+from src.modelo.Aluno import Aluno
+from src.modelo.Conection import Conection
 
 
 class DAOAluno:
@@ -175,5 +175,5 @@ class DAOAluno:
             print("Failed", error)
 
 
-lista = ['Guilherme Gonçalves', 'telefone', 'CE', 'cidade', 'escolaridade']
-inserir = DAOAluno.insertAluno(lista)
+# lista = ['Guilherme Gonçalves', 'telefone', 'CE', 'cidade', 'escolaridade']
+# inserir = DAOAluno.insertAluno(lista)

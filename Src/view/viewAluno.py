@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
-from alunoDao import DAOAluno
+from src.dao.alunoDAO import DAOAluno
 
 
 # -------------------CORES -----------------

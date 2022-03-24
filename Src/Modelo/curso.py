@@ -1,4 +1,4 @@
-from area import Area
+from src.modelo.Area import Area
 
 
 class Curso:

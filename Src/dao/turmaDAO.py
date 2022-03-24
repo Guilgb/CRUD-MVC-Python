@@ -1,8 +1,8 @@
-from curso import Curso
-from filial import Filial
-from area import Area
-from conection import Conection
-from turma import Turma
+from src.modelo.Curso import Curso
+from src.modelo.Filial import Filial
+from src.modelo.Area import Area
+from src.modelo.Conection import Conection
+from src.modelo.Turma import Turma
 
 
 class DAOTurma:

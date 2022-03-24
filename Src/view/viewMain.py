@@ -3,10 +3,10 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
-from viewAluno import ViewAluno
-from viewMatricula import ViewMatricula
-from viewTurma import ViewTurma
-from viewInstrutor import ViewInstrutor
+from src.view.viewAluno import ViewAluno
+from src.view.viewMatricula import ViewMatricula
+from src.view.viewTurma import ViewTurma
+from src.view.viewInstrutor import ViewInstrutor
 
 # -------------------CORES -----------------
 backgroundcolor = "#171c28"

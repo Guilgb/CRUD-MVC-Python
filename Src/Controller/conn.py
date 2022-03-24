@@ -4,7 +4,7 @@ con = pymysql.connect(
     host='localhost',
     user='root',
     password='',
-    database='crud2'
+    database='crud'
 )
 
 cursor = con.cursor()

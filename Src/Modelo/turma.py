@@ -1,5 +1,5 @@
-from curso import Curso
-from filial import Filial
+from src.modelo.Curso import Curso
+from src.modelo.Filial import Filial
 
 
 class Turma():

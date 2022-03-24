@@ -1,8 +1,8 @@
-from cidade import Cidade
-from estado import Estado
-from telefones import Telefones
-from instrutor import Instrutor
-from conection import Conection
+from src.modelo.Estado import Estado
+from src.modelo.Cidade import Cidade
+from src.modelo.Telefones import Telefones
+from src.modelo.Instrutor import Instrutor
+from src.controller.conection import Conection
 
 
 class DAOInstrutor:

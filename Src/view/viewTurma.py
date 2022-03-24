@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
-from turmaDAO import DAOTurma
+from src.dao.turmaDAO import DAOTurma
 
 
 class ViewTurma:

@@ -1,6 +1,6 @@
-from pessoa import Pessoa
-from telefones import Telefones
-from cidade import Cidade
+from src.modelo.Pessoa import Pessoa
+from src.modelo.Telefones import Telefones
+from src.modelo.Cidade import Cidade
 
 
 class Instrutor(Pessoa):

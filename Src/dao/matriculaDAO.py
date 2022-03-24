@@ -1,5 +1,5 @@
-from matricula import Matricula
-from conection import Conection
+from src.modelo.Matricula import Matricula
+from src.controller.conection import Conection
 
 
 class DAOMatricula:

@@ -1,4 +1,4 @@
-from estado import Estado
+from src.modelo.Estado import Estado
 
 
 class Cidade:

@@ -1,7 +1,7 @@
-from pessoa import Pessoa
-from telefones import Telefones
-from cidade import Cidade
-from escolaridade import Escolaridade
+from src.modelo.Pessoa import Pessoa
+from src.modelo.Telefones import Telefones
+from src.modelo.Cidade import Cidade
+from src.modelo.Escolaridade import Escolaridade
 
 
 class Aluno(Pessoa):

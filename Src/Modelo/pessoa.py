@@ -1,6 +1,6 @@
 import abc
-from cidade import Cidade
-from telefones import Telefones
+from src.modelo.Cidade import Cidade
+from src.modelo.Telefones import Telefones
 
 
 class Pessoa(abc.ABC):

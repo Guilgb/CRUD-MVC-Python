@@ -1,7 +1,3 @@
-from aluno import Aluno
-from turma import Turma
-
-
 class Matricula:
     def __init__(self, aluno: str, turma: str):
         self.__aluno = aluno
